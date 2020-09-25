@@ -1,0 +1,14 @@
+version: '2'
+services:
+  db:
+    image: 'mysql:5.6'
+    restart: 'always'
+    expose:
+      - '3306'
+    ports:
+      - '3306:3306'
+    environment:
+       MYSQL_ROOT_PASSWORD: 'pass'
+       MYSQL_DATABASE: 'foorera_api'
+       MYSQL_USER: 'user'
+       MYSQL_PASSWORD: 'pass'

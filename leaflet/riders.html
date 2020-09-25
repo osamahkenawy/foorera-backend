@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rides Distribution</title>
+	<link rel="stylesheet" type="text/css" href="./leaflet.css" />
+</head>
+<body style="padding: 0; margin: 0;">
+	<div style="width: 100%; height: 100vh;" id="map">
+
+	</div>
+	<script type="text/javascript" src="./leaflet.js"></script>
+	<script type="text/javascript" src="./RegularRides.js"></script>
+	<script type="text/javascript" src="./RideAlerts.js"></script>
+</body>
+<script type="text/javascript">
+	var map = L.map('map').setView([30.0594699, 31.1884235], 10);
+	L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
+		attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		apikey: '880143b878104f2ca8db747a55dd761b',
+		maxZoom: 22
+	}).addTo(map);
+	
+	RideAlerts.forEach(function(r) {
+		L.marker([r.from_lat, r.from_lng], {
+			icon: L.icon({
+				iconUrl: './images/icon-yellow.png',
+				iconSize: [15, 20],
+				shadowSize: [0, 0],
+			})
+		}).addTo(map).bindPopup("From: " + r.from_address);
+
+		L.marker([r.to_lat, r.to_lng], {
+			icon: L.icon({
+				iconUrl: './images/icon-red.png',
+				iconSize: [15, 20],
+				shadowSize: [0, 0],
+			})
+		}).addTo(map).bindPopup("To: " + r.to_address);
+
+		var pointA = new L.LatLng(r.from_lat, r.from_lng);
+		var pointB = new L.LatLng(r.to_lat, r.to_lng);
+		var pointList = [pointA, pointB];
+
+		var firstpolyline = new L.Polyline(pointList, {
+		    color: 'blue',
+		    weight: 1,
+		    opacity: 0.5,
+		    smoothFactor: 1
+		});
+		firstpolyline.addTo(map);
+	});
+	
+</script>
+</html>
